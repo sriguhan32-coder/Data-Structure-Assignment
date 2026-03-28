@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+
+char stack[100];
+int top = -1;
+
+void push(char c) {
+    stack[++top] = c;
+}
+
+char pop() {
+    return stack[top--];
+}
+
+int isMatching(char a, char b) {
+    return (a=='(' && b==')') ||
+           (a=='{' && b=='}') ||
+           (a=='[' && b==']');
+}
+
+int main() {
+    char exp[100];
+    printf("Enter expression: ");
+    scanf("%s", exp);
+
+    for (int i = 0; exp[i] != '\0'; i++) {
+        if (exp[i]=='(' || exp[i]=='{' || exp[i]=='[')
+            push(exp[i]);
+
+        else if (exp[i]==')' || exp[i]=='}' || exp[i]==']') {
+            if (top == -1 || !isMatching(pop(), exp[i])) {
+                printf("Unbalanced Expression");
+                return 0;
+            }
+        }
+    }
+
+    if (top == -1)
+        printf("Balanced Expression");
+    else
+        printf("Unbalanced Expression");
+
+    return 0;
+}
